@@ -1,25 +1,47 @@
-import { useState } from 'react'
-import './App.css'
-
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <h1>Count</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+import axios from "axios";
+import { useEffect, useState } from "react";
+const App = () => {
+    const [Employee, setEmployees] = useState([]);
+    useEffect(() => {
+        axios.get("http://localhost:6969/list").then((res) => {
+            setEmployees(res.data);
+        });
+    }, []);
+    return(
+        <>
+         <table border={1}
+         align="center"
+         cellPadding={10}
+         cellSpacing={10}>
+            <thead>
+                <tr>
+                    <th>OBJECT ID</th>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>DEPARTMENT</th>
+                    <th>ROLE</th>
+                </tr>
+            </thead>
+            <tbody>
+                {
+                    Employee.map((emp) => {
+                        return(
+                            <tr>
+                                <td>{emp._id}</td>
+                                <td>{emp.id}</td>
+                                <td>{emp.name}</td>
+                                <td>{emp.department}</td>
+                                <td>{emp.role}</td>
+                            </tr>
+                        )
+                    })
+                }
+            </tbody>
+            
+            
+         </table>
+        </>
+    )
 }
 
-export default App
+export default App;
